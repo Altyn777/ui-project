@@ -1,29 +1,32 @@
-import { useState, useEffect } from "react";
-
-import reactLogo from "./assets/react.svg";
+import { useState, useEffect, lazy, Suspense } from "react";
 import "./App.css";
-
-// import { MyComponent } from "./my-ui-module.js";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [SecondComponent, setSecondComponent] = useState(null);
+  const [FirstComponent, setFirstComponent] = useState(null);
+
+  // get component with async await and state
   useEffect(() => {
     const fetchMyComponent = async () => {
       const { ViteComponent } = await import("./my-ui-module.js");
-      setSecondComponent(() => ViteComponent);
+      setFirstComponent(() => ViteComponent);
     };
 
     fetchMyComponent();
   }, []);
 
+  // get component with lazy
+  const SecondComponent = lazy(() =>
+    import("./my-ui-module.js").then((it) => ({ default: it.ReactComponent }))
+  );
+
   return (
     <>
       <div>
-        {SecondComponent && <SecondComponent />}
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {FirstComponent && <FirstComponent />}
+        <Suspense fallback={<div>Loading...</div>}>
+          <SecondComponent />
+        </Suspense>
       </div>
       <h1>Vite + React</h1>
       <div className="card">
