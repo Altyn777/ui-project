@@ -1,20 +1,26 @@
-import { useState, lazy } from "react";
+import { useState, useEffect } from "react";
 
 import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
-const UI = lazy(() => import("./ui-project.js"));
+// import { MyComponent } from "./my-ui-module.js";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [SecondComponent, setSecondComponent] = useState(null);
+  useEffect(() => {
+    const fetchMyComponent = async () => {
+      const { ViteComponent } = await import("./my-ui-module.js");
+      setSecondComponent(() => ViteComponent);
+    };
+
+    fetchMyComponent();
+  }, []);
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
+        {SecondComponent && <SecondComponent />}
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
@@ -25,7 +31,6 @@ function App() {
           count is {count}
         </button>
       </div>
-      <UI />
     </>
   );
 }
