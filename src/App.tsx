@@ -1,6 +1,11 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import "./App.css";
 
+// get component with lazy
+const SecondComponent = lazy(() =>
+  import("./my-ui-module.js").then((it) => ({ default: it.ReactComponent }))
+);
+
 function App() {
   const [count, setCount] = useState(0);
   const [FirstComponent, setFirstComponent] = useState(null);
@@ -14,11 +19,6 @@ function App() {
 
     fetchMyComponent();
   }, []);
-
-  // get component with lazy
-  const SecondComponent = lazy(() =>
-    import("./my-ui-module.js").then((it) => ({ default: it.ReactComponent }))
-  );
 
   return (
     <>
