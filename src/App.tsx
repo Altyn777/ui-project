@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import "./App.css";
 
 const SecondComponent = lazy(() =>
-  import("/static/my-ui-module.js").then((it) => ({
+  import("my-ui-module.js").then((it) => ({
     default: it.MyComponent,
   }))
 );
