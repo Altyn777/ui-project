@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "ui-project/components", "public/my-ui-module.js"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
